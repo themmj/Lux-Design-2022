@@ -5,11 +5,11 @@ import "encoding/json"
 type Direction int
 
 const (
-	Center Direction = 0
-	Up     Direction = 1
-	Right  Direction = 2
-	Down   Direction = 3
-	Left   Direction = 4
+	DirCenter Direction = 0
+	DirUp     Direction = 1
+	DirRight  Direction = 2
+	DirDown   Direction = 3
+	DirLeft   Direction = 4
 )
 
 type Position struct {

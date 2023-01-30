@@ -2,6 +2,32 @@ package lux
 
 import "encoding/json"
 
+type BidAction struct {
+	Faction string `json:"faction"`
+	Bid     int    `json:"bid"`
+}
+
+func NewBidAction(faction string, bid int) *BidAction {
+	return &BidAction{
+		faction,
+		bid,
+	}
+}
+
+type SpawnAction struct {
+	Spawn Position `json:"spawn"`
+	Metal int      `json:"metal"`
+	Water int      `json:"water"`
+}
+
+func NewSpawnAction(spawn Position, metal int, water int) *SpawnAction {
+	return &SpawnAction{
+		spawn,
+		metal,
+		water,
+	}
+}
+
 type UnitActionType int
 
 const (
@@ -55,6 +81,78 @@ func (a UnitAction) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&v)
 }
 
+func NewMoveAction(direction Direction, repeat int, n int) *UnitAction {
+	return &UnitAction{
+		UnitActionMove,
+		direction,
+		1,
+		0,
+		0,
+		repeat,
+		n,
+	}
+}
+
+func NewTransferAction(direction Direction, resource Resource, amount int, repeat int, n int) *UnitAction {
+	return &UnitAction{
+		UnitActionTransfer,
+		direction,
+		0,
+		resource,
+		amount,
+		repeat,
+		n,
+	}
+}
+
+func NewPickupAction(resource Resource, amount int, repeat int, n int) *UnitAction {
+	return &UnitAction{
+		UnitActionPickup,
+		DirCenter,
+		0,
+		resource,
+		amount,
+		repeat,
+		n,
+	}
+}
+
+func NewDigAction(repeat int, n int) *UnitAction {
+	return &UnitAction{
+		UnitActionDig,
+		DirCenter,
+		0,
+		0,
+		0,
+		repeat,
+		n,
+	}
+}
+
+func NewSelfDestructAction(repeat int, n int) *UnitAction {
+	return &UnitAction{
+		UnitActionSelfDestruct,
+		DirCenter,
+		0,
+		0,
+		0,
+		repeat,
+		n,
+	}
+}
+
+func NewRechargeAction(amount int, repeat int, n int) *UnitAction {
+	return &UnitAction{
+		UnitActionRecharge,
+		DirCenter,
+		0,
+		0,
+		amount,
+		repeat,
+		n,
+	}
+}
+
 type FactoryActionType int
 
 const (
@@ -81,4 +179,22 @@ func (a FactoryAction) MarshalJSON() ([]byte, error) {
 	var v int
 	v = int(a.Type)
 	return json.Marshal(&v)
+}
+
+func NewBuildLightAction() *FactoryAction {
+	return &FactoryAction{
+		FactoryActionBuildLight,
+	}
+}
+
+func NewBuildHeavyAction() *FactoryAction {
+	return &FactoryAction{
+		FactoryActionBuildHeavy,
+	}
+}
+
+func NewWaterAction() *FactoryAction {
+	return &FactoryAction{
+		FactoryActionWater,
+	}
 }
